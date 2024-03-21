@@ -2,7 +2,7 @@
 
 Proyecto de Ciencia de Datos para analizar el flujo vehicular en la Ciudad de
 Córdoba con datos disponibles desde Agosto de 2019 a la actualidad (Marzo 2024),
-obtenidos de la página de la [Analítca de Tráfico de la Municipalidad de
+obtenidos de la página de la [Analítica de Tráfico de la Municipalidad de
 Córdoba](https://app.powerbi.com/view?r=eyJrIjoiMjg1YmRjODktZGRjOS00ODMxLWFiOTMtZTQzZDViZjNkMWE5IiwidCI6ImU4YjUzOTJiLWM1NmQtNGM4Ni1iNjU4LWJjYmFhNzM1ZDFjZCIsImMiOjR9)
 correspondiente a la cámara ubicada de Bv. Chacabuco y Bv. Illia con orientación
 hacia puente Maipú.
@@ -36,7 +36,7 @@ que vienen como vectores):
 	    > D0: fechas (vector)
 	    > D1: turno (vector)
 	    > D2: va la cantidad de vehículos sacada de DM0 (vector vacío) 
-	    > D3: día de la semana, se corresponde con el tercer elemento de C en DM0 comenzando por el primer día en el mes(vector)
+	    > D3: día de la semana, se corresponde con el tercer elemento de C en DM0 comenzando por el primer día en el mes (vector)
 	    > D4: fecha (año/mes, vector)
 	    > D5: rango horario (vector, se descarga ordenado)
 
