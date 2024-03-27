@@ -2,6 +2,8 @@
 json2pd.ipynb
 nomenclatura.dat
 names.sh
+.project
+*.swp
 
 
 # Byte-compiled / optimized / DLL files

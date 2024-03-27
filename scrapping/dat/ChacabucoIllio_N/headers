@@ -1,0 +1,19 @@
+POST /public/reports/querydata?synchronous=true HTTP/1.1
+Host: wabi-south-central-us-api.analysis.windows.net
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.7,es-AR;q=0.3
+Accept-Encoding: gzip, deflate, br
+ActivityId: c02c9ff1-3025-41fb-bc2e-f9864a1f8710
+RequestId: f7a1e646-d05f-9a60-de54-c4e366004a65
+X-PowerBI-ResourceKey: 285bdc89-ddc9-4831-ab93-e43d5bf3d1a9
+Content-Type: application/json;charset=UTF-8
+Content-Length: 3608
+Origin: https://app.powerbi.com
+DNT: 1
+Connection: keep-alive
+Referer: https://app.powerbi.com/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: cross-site
+Sec-GPC: 1
