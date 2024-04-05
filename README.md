@@ -17,10 +17,10 @@ corresponde con el siguiente _turno_ y _rango horario_:
 
  _it_ | _turno_ | _rango horario_
 -------|:-:|:------:
- 0 | MADRUGADA | de 0 a 6 h.
- 1 | MAÑANA | de 6 a 12 h.
- 2 | SIESTA | de 12 a 16 h.
- 3 | TARDE | de 16 a 21 h.
+ 0 | MADRUGADA | de 0 a 6 h
+ 1 | MAÑANA | de 6 a 12 h
+ 2 | SIESTA | de 12 a 16 h
+ 3 | TARDE | de 16 a 21 h
  4 | NOCHE | de 21 a 24 h
 
 
