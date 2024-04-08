@@ -1,5 +1,8 @@
+import numpy as np
+import pandas as pd
 import httpx
 import csv
+import json
 
 
 # location
@@ -507,8 +510,9 @@ json_data = {
     'modelId': 2445526,
 }
 
-#def to_json(res):
-#    with open("results.json", "w") as f:
+def to_json(res, name):
+    with open(name+".json", "w") as f:
+        f.write(res)
 
 
 
@@ -520,10 +524,28 @@ r = httpx.post(url,
               )
 
 
+# Variables
+
+#anios = ['2019', '2020', '2021', '2022', '2023', '2024']
+anios = np.arange(2019, 2025).tolist()
+#anios = str(anios)
+meses = np.arange(1,13).tolist() 
+
+ubicacion = []
+
+print('añslfjasfdj',str(anios[0]), type(str(anios[0])))
+#print(type(anios[-1].astype(str)), meses[3])
+
 
 print(r.status_code)
 print(r.headers['content-type'])
 
+# src: https://datagy.io/python-requests-json/
 if r.status_code == httpx.codes.OK:
-    print(r.json())
+    rj = r.json()
+    print(type(r.json()))
+    #to_json(json.dumps(rj, indent=2), anios[-1].meses[3])
+    #print(json.dumps(rj, indent=2)) # salida bonita
+    #print(type(rj['results'][0]['result']['data']))
+    #print(rj['results'][0]['result']['data']['dsr'])
     #print(r.text)
