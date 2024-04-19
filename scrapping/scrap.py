@@ -58,470 +58,464 @@ params = {
     'synchronous': 'true',
 }
 
+# automatic indent code: gg=G (src: https://youtu.be/r76uQkMNhSA)
+# header
 json_data = {
-    'version': '1.0.0',
-    'queries': [
-        {
-            'Query': {
-                'Commands': [
-                    {
-                        'SemanticQueryDataShapeCommand': {
-                            'Query': {
-                                'Version': 2,
-                                'From': [
-                                    {
-                                        'Name': 'e',
-                                        'Entity': 'EstadoTrafico',
-                                        'Type': 0,
-                                    },
-                                    {
-                                        'Name': 't',
-                                        'Entity': 'Turnos',
-                                        'Type': 0,
-                                    },
-                                    {
-                                        'Name': 'p',
-                                        'Entity': 'Periodos',
-                                        'Type': 0,
-                                    },
-                                    {
-                                        'Name': 'm',
-                                        'Entity': 'Metricas',
-                                        'Type': 0,
-                                    },
-                                    {
-                                        'Name': 'c',
-                                        'Entity': 'Camaras',
-                                        'Type': 0,
-                                    },
-                                ],
-                                'Select': [
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'fecha',
-                                        },
-                                        'Name': 'EstadoTrafico.fecha',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'cant',
-                                        },
-                                        'Name': 'Sum(EstadoTrafico.cant)',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 't',
-                                                },
-                                            },
-                                            'Property': 'nombre',
-                                        },
-                                        'Name': 'Turnos.nombre',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'activo',
-                                        },
-                                        'Name': 'EstadoTrafico.activo',
-                                        'NativeReferenceName': 'activo',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'mark',
-                                        },
-                                        'Name': 'EstadoTrafico.mark',
-                                        'NativeReferenceName': 'mark',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'diaSemana',
-                                        },
-                                        'Name': 'EstadoTrafico.diaSemana',
-                                        'NativeReferenceName': 'diaSemana',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'periodo',
-                                        },
-                                        'Name': 'EstadoTrafico.periodo',
-                                        'NativeReferenceName': 'periodo',
-                                    },
-                                    {
-                                        'Column': {
-                                            'Expression': {
-                                                'SourceRef': {
-                                                    'Source': 'e',
-                                                },
-                                            },
-                                            'Property': 'intervaloSegmento',
-                                        },
-                                        'Name': 'EstadoTrafico.intervaloSegmento',
-                                        'NativeReferenceName': 'intervaloSegmento',
-                                    },
-                                ],
-                                'Where': [
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 't',
-                                                                },
-                                                            },
-                                                            'Property': 'nombre',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': "'MADRUGADA'",
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'p',
-                                                                },
-                                                            },
-                                                            'Property': 'periodo',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': "'2024/03'",
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'm',
-                                                                },
-                                                            },
-                                                            'Property': 'nombreMetrica',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'c',
-                                                                },
-                                                            },
-                                                            'Property': 'activo',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': 'true',
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'm',
-                                                                },
-                                                            },
-                                                            'Property': 'activo',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': 'true',
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'c',
-                                                                },
-                                                            },
-                                                            'Property': 'analyticsCapable',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': 'true',
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'Between': {
-                                                'Expression': {
-                                                    'Column': {
-                                                        'Expression': {
-                                                            'SourceRef': {
-                                                                'Source': 'e',
-                                                            },
-                                                        },
-                                                        'Property': 'fechaDesde',
-                                                    },
-                                                },
-                                                'LowerBound': {
-                                                    'DateSpan': {
-                                                        'Expression': {
-                                                            'DateAdd': {
-                                                                'Expression': {
-                                                                    'DateAdd': {
-                                                                        'Expression': {
-                                                                            'DateAdd': {
-                                                                                'Expression': {
-                                                                                    'Now': {},
-                                                                                },
-                                                                                'Amount': -1,
-                                                                                'TimeUnit': 0,
-                                                                            },
-                                                                        },
-                                                                        'Amount': 1,
-                                                                        'TimeUnit': 0,
-                                                                    },
-                                                                },
-                                                                'Amount': -50,
-                                                                'TimeUnit': 3,
-                                                            },
-                                                        },
-                                                        'TimeUnit': 0,
-                                                    },
-                                                },
-                                                'UpperBound': {
-                                                    'DateSpan': {
-                                                        'Expression': {
-                                                            'DateAdd': {
-                                                                'Expression': {
-                                                                    'Now': {},
-                                                                },
-                                                                'Amount': -1,
-                                                                'TimeUnit': 0,
-                                                            },
-                                                        },
-                                                        'TimeUnit': 0,
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
-                                    {
-                                        'Condition': {
-                                            'In': {
-                                                'Expressions': [
-                                                    {
-                                                        'Column': {
-                                                            'Expression': {
-                                                                'SourceRef': {
-                                                                    'Source': 'm',
-                                                                },
-                                                            },
-                                                            'Property': 'nombreMetrica',
-                                                        },
-                                                    },
-                                                ],
-                                                'Values': [
-                                                    [
-                                                        {
-                                                            'Literal': {
-                                                                'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
-                                                            },
-                                                        },
-                                                    ],
-                                                ],
-                                            },
-                                        },
-                                    },
-                                ],
-                                'OrderBy': [
-                                    {
-                                        'Direction': 1,
-                                        'Expression': {
-                                            'Column': {
-                                                'Expression': {
-                                                    'SourceRef': {
-                                                        'Source': 'e',
-                                                    },
-                                                },
-                                                'Property': 'intervaloSegmento',
-                                            },
-                                        },
-                                    },
-                                ],
-                                'GroupBy': [
-                                    {
-                                        'SourceRef': {
-                                            'Source': 'e',
-                                        },
-                                        'Name': 'EstadoTrafico',
-                                    },
-                                ],
-                            },
-                            'Binding': {
-                                'Primary': {
-                                    'Groupings': [
-                                        {
-                                            'Projections': [
-                                                0,
-                                                1,
-                                                2,
-                                                3,
-                                                4,
-                                                5,
-                                                6,
-                                                7,
-                                            ],
-                                            'GroupBy': [
-                                                0,
-                                            ],
-                                        },
-                                    ],
-                                },
-                                'DataReduction': {
-                                    'Primary': {
-                                        'Top': {
-                                            'Count': 1000,
-                                        },
-                                    },
-                                },
-                                'Version': 1,
-                            },
-                            'ExecutionMetricsKind': 1,
-                        },
-                    },
-                ],
-            },
-            'QueryId': '',
-            'ApplicationContext': {
-                'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
-                'Sources': [
-                    {
-                        'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
-                    },
-                ],
-            },
-        },
-    ],
-    'cancelQueries': [],
-    'modelId': 2445526,
+  'version': '1.0.0',
+  'queries': [
+    {
+      'Query': {
+	'Commands': [
+	  {
+	    'SemanticQueryDataShapeCommand': {
+	      'Query': {
+		'Version': 2,
+		'From': [
+		  {
+		    'Name': 'e',
+		    'Entity': 'EstadoTrafico',
+		    'Type': 0,
+		  },
+		  {
+		    'Name': 't',
+		    'Entity': 'Turnos',
+		    'Type': 0,
+		  },
+		  {
+		    'Name': 'p',
+		    'Entity': 'Periodos',
+		    'Type': 0,
+		  },
+		  {
+		    'Name': 'm',
+		    'Entity': 'Metricas',
+		    'Type': 0,
+		  },
+		  {
+		    'Name': 'c',
+		    'Entity': 'Camaras',
+		    'Type': 0,
+		  },
+		],
+		'Select': [
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'fecha',
+		    },
+		    'Name': 'EstadoTrafico.fecha',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'cant',
+		    },
+		    'Name': 'Sum(EstadoTrafico.cant)',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 't',
+			},
+		      },
+		      'Property': 'nombre',
+		    },
+		    'Name': 'Turnos.nombre',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'activo',
+		    },
+		    'Name': 'EstadoTrafico.activo',
+		    'NativeReferenceName': 'activo',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'mark',
+		    },
+		    'Name': 'EstadoTrafico.mark',
+		    'NativeReferenceName': 'mark',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'diaSemana',
+		    },
+		    'Name': 'EstadoTrafico.diaSemana',
+		    'NativeReferenceName': 'diaSemana',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'periodo',
+		    },
+		    'Name': 'EstadoTrafico.periodo',
+		    'NativeReferenceName': 'periodo',
+		  },
+		  {
+		    'Column': {
+		      'Expression': {
+			'SourceRef': {
+			  'Source': 'e',
+			},
+		      },
+		      'Property': 'intervaloSegmento',
+		    },
+		    'Name': 'EstadoTrafico.intervaloSegmento',
+		    'NativeReferenceName': 'intervaloSegmento',
+		  },
+		],
+		'Where': [
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 't',
+				},
+			      },
+			      'Property': 'nombre',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': "'MADRUGADA'",
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'p',
+				},
+			      },
+			      'Property': 'periodo',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': "'2024/03'",
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'm',
+				},
+			      },
+			      'Property': 'nombreMetrica',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'c',
+				},
+			      },
+			      'Property': 'activo',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': 'true',
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'm',
+				},
+			      },
+			      'Property': 'activo',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': 'true',
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'c',
+				},
+			      },
+			      'Property': 'analyticsCapable',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': 'true',
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'Between': {
+			'Expression': {
+			  'Column': {
+			    'Expression': {
+			      'SourceRef': {
+				'Source': 'e',
+			      },
+			    },
+			    'Property': 'fechaDesde',
+			  },
+			},
+			'LowerBound': {
+			  'DateSpan': {
+			    'Expression': {
+			      'DateAdd': {
+				'Expression': {
+				  'DateAdd': {
+				    'Expression': {
+				      'DateAdd': {
+					'Expression': {
+					  'Now': {},
+					},
+					'Amount': -1,
+					'TimeUnit': 0,
+				      },
+				    },
+				    'Amount': 1,
+				    'TimeUnit': 0,
+				  },
+				},
+				'Amount': -50,
+				'TimeUnit': 3,
+			      },
+			    },
+			    'TimeUnit': 0,
+			  },
+			},
+			'UpperBound': {
+			  'DateSpan': {
+			    'Expression': {
+			      'DateAdd': {
+				'Expression': {
+				  'Now': {},
+				},
+				'Amount': -1,
+				'TimeUnit': 0,
+			      },
+			    },
+			    'TimeUnit': 0,
+			  },
+			},
+		      },
+		    },
+		  },
+		  {
+		    'Condition': {
+		      'In': {
+			'Expressions': [
+			  {
+			    'Column': {
+			      'Expression': {
+				'SourceRef': {
+				  'Source': 'm',
+				},
+			      },
+			      'Property': 'nombreMetrica',
+			    },
+			  },
+			],
+			'Values': [
+			  [
+			    {
+			      'Literal': {
+				'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
+			      },
+			    },
+			  ],
+			],
+		      },
+		    },
+		  },
+		],
+		'OrderBy': [
+		  {
+		    'Direction': 1,
+		    'Expression': {
+		      'Column': {
+			'Expression': {
+			  'SourceRef': {
+			    'Source': 'e',
+			  },
+			},
+			'Property': 'intervaloSegmento',
+		      },
+		    },
+		  },
+		],
+		'GroupBy': [
+		  {
+		    'SourceRef': {
+		      'Source': 'e',
+		    },
+		    'Name': 'EstadoTrafico',
+		  },
+		],
+	      },
+	      'Binding': {
+		'Primary': {
+		  'Groupings': [
+		    {
+		      'Projections': [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+		      ],
+		      'GroupBy': [
+			0,
+		      ],
+		    },
+		  ],
+		},
+		'DataReduction': {
+		  'Primary': {
+		    'Top': {
+		      'Count': 1000,
+		    },
+		  },
+		},
+		'Version': 1,
+	      },
+	      'ExecutionMetricsKind': 1,
+	    },
+	  },
+	],
+      },
+      'QueryId': '',
+      'ApplicationContext': {
+	'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
+	'Sources': [
+	  {
+	    'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
+	  },
+	],
+      },
+    },
+  ],
+  'cancelQueries': [],
+  'modelId': 2445526,
 }
 
+# Generate and write data
 def to_json(res, name):
     with open(name+".json", "w") as f:
         f.write(res)
-
-
-
-# response
-r = httpx.post(url, 
-              #params=params,
-              headers=headers,
-              json=json_data,
-              )
 
 
 # Variables
@@ -533,18 +527,26 @@ meses = np.arange(1,13).tolist()
 
 ubicacion = []
 
-print('añslfjasfdj',str(anios[0]), type(str(anios[0])))
-#print(type(anios[-1].astype(str)), meses[3])
+#print('añslfjasfdj',str(anios[0]), type(str(anios[0])))
+#print(type(anios[-1]), type(meses[3]), str(meses[3]),  str(anios[-1])+"."+str(meses[3])
+#      )
 
 
-print(r.status_code)
-print(r.headers['content-type'])
+
+# response
+r = httpx.post(url, 
+              #params=params,
+              headers=headers,
+              json=json_data,
+              )
 
 # src: https://datagy.io/python-requests-json/
 if r.status_code == httpx.codes.OK:
     rj = r.json()
     print(type(r.json()))
-    #to_json(json.dumps(rj, indent=2), anios[-1].meses[3])
+    name_file = str(anios[-1])+"."+str(meses[3]).zfill(2)
+    print(name_file)
+    ##to_json(json.dumps(rj, indent=2), name_file)
     #print(json.dumps(rj, indent=2)) # salida bonita
     #print(type(rj['results'][0]['result']['data']))
     #print(rj['results'][0]['result']['data']['dsr'])
