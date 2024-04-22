@@ -58,6 +58,44 @@ params = {
     'synchronous': 'true',
 }
 
+
+
+# Variables
+
+#anios = ['2019', '2020', '2021', '2022', '2023', '2024']
+anios = np.arange(2019, 2025).tolist()
+#anios = str(anios)
+meses = np.arange(1,13).tolist() 
+
+its = ["'MADRUGADA'", 
+       "'MAÑANA'", 
+       "'SIESTA'", 
+       "'TARDE'", 
+       "'NOCHE'"
+       ]
+
+ubicaciones = ["'contVeh_MaipuOlmosN_EGRESO2'",
+               "'contVeh_ChacabucoIllia_NORTE'",
+               "'contVeh_MaipuOlmosE_EGRESO'",
+               "'contVeh_GuzmanSarmiento_NW'",
+               "'contVeh_PuenteSarmiento_INGRESO'",
+               "'contVeh_GuzmanSarmiento_SE'",
+
+
+
+               ]
+
+it=its[1] #"'MADRUGADA'"
+ubicacion = ubicaciones[0]
+fecha = "'"+str(anios[-1])+"/"+str(meses[3]).zfill(2)+"'"
+
+
+#print('añslfjasfdj',str(anios[0]), type(str(anios[0])))
+#print(type(anios[-1]), type(meses[3]), str(meses[3]),  str(anios[-1])+"."+str(meses[3])
+#      )
+
+print(it, ubicacion, fecha)
+
 # automatic indent code: gg=G (src: https://youtu.be/r76uQkMNhSA)
 # header
 json_data = {
@@ -212,7 +250,7 @@ json_data = {
 			  [
 			    {
 			      'Literal': {
-				'Value': "'MADRUGADA'",
+				'Value': f"{it}",
 			      },
 			    },
 			  ],
@@ -239,7 +277,7 @@ json_data = {
 			  [
 			    {
 			      'Literal': {
-				'Value': "'2024/03'",
+				'Value': f"{fecha}",
 			      },
 			    },
 			  ],
@@ -266,7 +304,7 @@ json_data = {
 			  [
 			    {
 			      'Literal': {
-				'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
+				'Value': f"{ubicacion}",
 			      },
 			    },
 			  ],
@@ -430,7 +468,7 @@ json_data = {
 			  [
 			    {
 			      'Literal': {
-				'Value': "'contVeh_MaipuOlmosN_EGRESO2'",
+				'Value': f"{ubicacion}",
 			      },
 			    },
 			  ],
@@ -518,20 +556,6 @@ def to_json(res, name):
         f.write(res)
 
 
-# Variables
-
-#anios = ['2019', '2020', '2021', '2022', '2023', '2024']
-anios = np.arange(2019, 2025).tolist()
-#anios = str(anios)
-meses = np.arange(1,13).tolist() 
-
-ubicacion = []
-
-#print('añslfjasfdj',str(anios[0]), type(str(anios[0])))
-#print(type(anios[-1]), type(meses[3]), str(meses[3]),  str(anios[-1])+"."+str(meses[3])
-#      )
-
-
 
 # response
 r = httpx.post(url, 
@@ -546,7 +570,8 @@ if r.status_code == httpx.codes.OK:
     print(type(r.json()))
     name_file = str(anios[-1])+"."+str(meses[3]).zfill(2)
     print(name_file)
-    ##to_json(json.dumps(rj, indent=2), name_file)
+    to_json(json.dumps(rj, indent=2, ensure_ascii=False), name_file)
+    #to_json(json.dumps(rj, indent=2, ensure_ascii=False).encode('utf8'), name_file)
     #print(json.dumps(rj, indent=2)) # salida bonita
     #print(type(rj['results'][0]['result']['data']))
     #print(rj['results'][0]['result']['data']['dsr'])
