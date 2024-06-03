@@ -3,9 +3,508 @@ import pandas as pd
 import httpx
 import csv
 import json
+import os
 
 
-# location
+# Functions
+
+# .exists work for dir y files
+#if(not os.path.isdir('lala')):
+#    os.mkdir('lala')
+
+def direct(directorio):
+    """
+    Creation of directories where we store json data
+    """
+    path = 'dat/json/' + directorio
+    try:
+        os.makedirs(path)
+    except: 
+        pass
+
+
+def jsondata(it, fecha, ubicacion):
+    """
+    Json query
+    in:
+        it: turn indicator
+        fecha: date
+        ubicacion: location
+    out:
+        json_data
+    """
+    json_data = {
+      'version': '1.0.0',
+      'queries': [
+        {
+          'Query': {
+    	'Commands': [
+    	  {
+    	    'SemanticQueryDataShapeCommand': {
+    	      'Query': {
+    		'Version': 2,
+    		'From': [
+    		  {
+    		    'Name': 'e',
+    		    'Entity': 'EstadoTrafico',
+    		    'Type': 0,
+    		  },
+    		  {
+    		    'Name': 't',
+    		    'Entity': 'Turnos',
+    		    'Type': 0,
+    		  },
+    		  {
+    		    'Name': 'p',
+    		    'Entity': 'Periodos',
+    		    'Type': 0,
+    		  },
+    		  {
+    		    'Name': 'm',
+    		    'Entity': 'Metricas',
+    		    'Type': 0,
+    		  },
+    		  {
+    		    'Name': 'c',
+    		    'Entity': 'Camaras',
+    		    'Type': 0,
+    		  },
+    		],
+    		'Select': [
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'fecha',
+    		    },
+    		    'Name': 'EstadoTrafico.fecha',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'cant',
+    		    },
+    		    'Name': 'Sum(EstadoTrafico.cant)',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 't',
+    			},
+    		      },
+    		      'Property': 'nombre',
+    		    },
+    		    'Name': 'Turnos.nombre',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'activo',
+    		    },
+    		    'Name': 'EstadoTrafico.activo',
+    		    'NativeReferenceName': 'activo',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'mark',
+    		    },
+    		    'Name': 'EstadoTrafico.mark',
+    		    'NativeReferenceName': 'mark',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'diaSemana',
+    		    },
+    		    'Name': 'EstadoTrafico.diaSemana',
+    		    'NativeReferenceName': 'diaSemana',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'periodo',
+    		    },
+    		    'Name': 'EstadoTrafico.periodo',
+    		    'NativeReferenceName': 'periodo',
+    		  },
+    		  {
+    		    'Column': {
+    		      'Expression': {
+    			'SourceRef': {
+    			  'Source': 'e',
+    			},
+    		      },
+    		      'Property': 'intervaloSegmento',
+    		    },
+    		    'Name': 'EstadoTrafico.intervaloSegmento',
+    		    'NativeReferenceName': 'intervaloSegmento',
+    		  },
+    		],
+    		'Where': [
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 't',
+    				},
+    			      },
+    			      'Property': 'nombre',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': f"{it}",
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'p',
+    				},
+    			      },
+    			      'Property': 'periodo',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': f"{fecha}",
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'm',
+    				},
+    			      },
+    			      'Property': 'nombreMetrica',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': f"{ubicacion}",
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'c',
+    				},
+    			      },
+    			      'Property': 'activo',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': 'true',
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'm',
+    				},
+    			      },
+    			      'Property': 'activo',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': 'true',
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'c',
+    				},
+    			      },
+    			      'Property': 'analyticsCapable',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': 'true',
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'Between': {
+    			'Expression': {
+    			  'Column': {
+    			    'Expression': {
+    			      'SourceRef': {
+    				'Source': 'e',
+    			      },
+    			    },
+    			    'Property': 'fechaDesde',
+    			  },
+    			},
+    			'LowerBound': {
+    			  'DateSpan': {
+    			    'Expression': {
+    			      'DateAdd': {
+    				'Expression': {
+    				  'DateAdd': {
+    				    'Expression': {
+    				      'DateAdd': {
+    					'Expression': {
+    					  'Now': {},
+    					},
+    					'Amount': -1,
+    					'TimeUnit': 0,
+    				      },
+    				    },
+    				    'Amount': 1,
+    				    'TimeUnit': 0,
+    				  },
+    				},
+    				'Amount': -50,
+    				'TimeUnit': 3,
+    			      },
+    			    },
+    			    'TimeUnit': 0,
+    			  },
+    			},
+    			'UpperBound': {
+    			  'DateSpan': {
+    			    'Expression': {
+    			      'DateAdd': {
+    				'Expression': {
+    				  'Now': {},
+    				},
+    				'Amount': -1,
+    				'TimeUnit': 0,
+    			      },
+    			    },
+    			    'TimeUnit': 0,
+    			  },
+    			},
+    		      },
+    		    },
+    		  },
+    		  {
+    		    'Condition': {
+    		      'In': {
+    			'Expressions': [
+    			  {
+    			    'Column': {
+    			      'Expression': {
+    				'SourceRef': {
+    				  'Source': 'm',
+    				},
+    			      },
+    			      'Property': 'nombreMetrica',
+    			    },
+    			  },
+    			],
+    			'Values': [
+    			  [
+    			    {
+    			      'Literal': {
+    				'Value': f"{ubicacion}",
+    			      },
+    			    },
+    			  ],
+    			],
+    		      },
+    		    },
+    		  },
+    		],
+    		'OrderBy': [
+    		  {
+    		    'Direction': 1,
+    		    'Expression': {
+    		      'Column': {
+    			'Expression': {
+    			  'SourceRef': {
+    			    'Source': 'e',
+    			  },
+    			},
+    			'Property': 'intervaloSegmento',
+    		      },
+    		    },
+    		  },
+    		],
+    		'GroupBy': [
+    		  {
+    		    'SourceRef': {
+    		      'Source': 'e',
+    		    },
+    		    'Name': 'EstadoTrafico',
+    		  },
+    		],
+    	      },
+    	      'Binding': {
+    		'Primary': {
+    		  'Groupings': [
+    		    {
+    		      'Projections': [
+    			0,
+    			1,
+    			2,
+    			3,
+    			4,
+    			5,
+    			6,
+    			7,
+    		      ],
+    		      'GroupBy': [
+    			0,
+    		      ],
+    		    },
+    		  ],
+    		},
+    		'DataReduction': {
+    		  'Primary': {
+    		    'Top': {
+    		      'Count': 1000,
+    		    },
+    		  },
+    		},
+    		'Version': 1,
+    	      },
+    	      'ExecutionMetricsKind': 1,
+    	    },
+    	  },
+    	],
+          },
+          'QueryId': '',
+          'ApplicationContext': {
+    	'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
+    	'Sources': [
+    	  {
+    	    'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
+    	  },
+    	],
+          },
+        },
+      ],
+      'cancelQueries': [],
+      'modelId': 2445526,
+    }
+    return json_data
+
+
+def to_json(res, name):
+    """
+    Generate and write data
+    in:
+        res: json data
+        name: json file name
+    """
+    with open(name+".json", "w") as f:
+        f.write(res)
+
+
+
+
+
+# ==========================
+
+# data location
+# -------------
 urlH = 'https://app.powerbi.com/view?r=eyJrIjoiMjUyMWVjNzctNDc4Ny00MzQyLWI0NjktNDYxNzU5ZDE1MDM5IiwidCI6ImU4YjUzOTJiLWM1NmQtNGM4Ni1iNjU4LWJjYmFhNzM1ZDFjZCIsImMiOjR9'
 
 head = httpx.options(urlH)
@@ -13,6 +512,7 @@ head = httpx.options(urlH)
 url = 'https://wabi-south-central-us-api.analysis.windows.net/public/reports/querydata'
 
 # headear
+# -------
 
 #headers = {
 #    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0',
@@ -61,19 +561,39 @@ params = {
 
 
 # Variables
+# ---------
+
+# We use it for iteration
 
 #anios = ['2019', '2020', '2021', '2022', '2023', '2024']
 anios = np.arange(2019, 2025).tolist()
 #anios = str(anios)
 meses = np.arange(1,13).tolist() 
 
-its = ["'MADRUGADA'", 
-       "'MAÑANA'", 
-       "'SIESTA'", 
-       "'TARDE'", 
-       "'NOCHE'"
-       ]
+# dict 
+its = {0: "'MADRUGADA'", 
+       1: "'MAÑANA'", 
+       2: "'SIESTA'", 
+       3: "'TARDE'", 
+       4: "'NOCHE'"
+       }
 
+
+# directories store json files
+location_dir = [
+        'contVeh_MaipuOlmosN_EGRESO2',
+        'contVeh_ChacabucoIllia_NORTE',
+        'contVeh_MaipuOlmosE_EGRESO',
+        'contVeh_GuzmanSarmiento_NW',
+        'contVeh_PuenteSarmiento_INGRESO',
+        'contVeh_GuzmanSarmiento_SE',
+
+
+
+               ]
+
+
+# camera locations
 ubicaciones = ["'contVeh_MaipuOlmosN_EGRESO2'",
                "'contVeh_ChacabucoIllia_NORTE'",
                "'contVeh_MaipuOlmosE_EGRESO'",
@@ -84,6 +604,7 @@ ubicaciones = ["'contVeh_MaipuOlmosN_EGRESO2'",
 
 
                ]
+
 
 it=its[1] #"'MADRUGADA'"
 ubicacion = ubicaciones[0]
@@ -98,470 +619,466 @@ print(it, ubicacion, fecha)
 
 # automatic indent code: gg=G (src: https://youtu.be/r76uQkMNhSA)
 # header
-json_data = {
-  'version': '1.0.0',
-  'queries': [
-    {
-      'Query': {
-	'Commands': [
-	  {
-	    'SemanticQueryDataShapeCommand': {
-	      'Query': {
-		'Version': 2,
-		'From': [
-		  {
-		    'Name': 'e',
-		    'Entity': 'EstadoTrafico',
-		    'Type': 0,
-		  },
-		  {
-		    'Name': 't',
-		    'Entity': 'Turnos',
-		    'Type': 0,
-		  },
-		  {
-		    'Name': 'p',
-		    'Entity': 'Periodos',
-		    'Type': 0,
-		  },
-		  {
-		    'Name': 'm',
-		    'Entity': 'Metricas',
-		    'Type': 0,
-		  },
-		  {
-		    'Name': 'c',
-		    'Entity': 'Camaras',
-		    'Type': 0,
-		  },
-		],
-		'Select': [
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'fecha',
-		    },
-		    'Name': 'EstadoTrafico.fecha',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'cant',
-		    },
-		    'Name': 'Sum(EstadoTrafico.cant)',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 't',
-			},
-		      },
-		      'Property': 'nombre',
-		    },
-		    'Name': 'Turnos.nombre',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'activo',
-		    },
-		    'Name': 'EstadoTrafico.activo',
-		    'NativeReferenceName': 'activo',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'mark',
-		    },
-		    'Name': 'EstadoTrafico.mark',
-		    'NativeReferenceName': 'mark',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'diaSemana',
-		    },
-		    'Name': 'EstadoTrafico.diaSemana',
-		    'NativeReferenceName': 'diaSemana',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'periodo',
-		    },
-		    'Name': 'EstadoTrafico.periodo',
-		    'NativeReferenceName': 'periodo',
-		  },
-		  {
-		    'Column': {
-		      'Expression': {
-			'SourceRef': {
-			  'Source': 'e',
-			},
-		      },
-		      'Property': 'intervaloSegmento',
-		    },
-		    'Name': 'EstadoTrafico.intervaloSegmento',
-		    'NativeReferenceName': 'intervaloSegmento',
-		  },
-		],
-		'Where': [
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 't',
-				},
-			      },
-			      'Property': 'nombre',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': f"{it}",
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'p',
-				},
-			      },
-			      'Property': 'periodo',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': f"{fecha}",
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'm',
-				},
-			      },
-			      'Property': 'nombreMetrica',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': f"{ubicacion}",
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'c',
-				},
-			      },
-			      'Property': 'activo',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': 'true',
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'm',
-				},
-			      },
-			      'Property': 'activo',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': 'true',
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'c',
-				},
-			      },
-			      'Property': 'analyticsCapable',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': 'true',
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'Between': {
-			'Expression': {
-			  'Column': {
-			    'Expression': {
-			      'SourceRef': {
-				'Source': 'e',
-			      },
-			    },
-			    'Property': 'fechaDesde',
-			  },
-			},
-			'LowerBound': {
-			  'DateSpan': {
-			    'Expression': {
-			      'DateAdd': {
-				'Expression': {
-				  'DateAdd': {
-				    'Expression': {
-				      'DateAdd': {
-					'Expression': {
-					  'Now': {},
-					},
-					'Amount': -1,
-					'TimeUnit': 0,
-				      },
-				    },
-				    'Amount': 1,
-				    'TimeUnit': 0,
-				  },
-				},
-				'Amount': -50,
-				'TimeUnit': 3,
-			      },
-			    },
-			    'TimeUnit': 0,
-			  },
-			},
-			'UpperBound': {
-			  'DateSpan': {
-			    'Expression': {
-			      'DateAdd': {
-				'Expression': {
-				  'Now': {},
-				},
-				'Amount': -1,
-				'TimeUnit': 0,
-			      },
-			    },
-			    'TimeUnit': 0,
-			  },
-			},
-		      },
-		    },
-		  },
-		  {
-		    'Condition': {
-		      'In': {
-			'Expressions': [
-			  {
-			    'Column': {
-			      'Expression': {
-				'SourceRef': {
-				  'Source': 'm',
-				},
-			      },
-			      'Property': 'nombreMetrica',
-			    },
-			  },
-			],
-			'Values': [
-			  [
-			    {
-			      'Literal': {
-				'Value': f"{ubicacion}",
-			      },
-			    },
-			  ],
-			],
-		      },
-		    },
-		  },
-		],
-		'OrderBy': [
-		  {
-		    'Direction': 1,
-		    'Expression': {
-		      'Column': {
-			'Expression': {
-			  'SourceRef': {
-			    'Source': 'e',
-			  },
-			},
-			'Property': 'intervaloSegmento',
-		      },
-		    },
-		  },
-		],
-		'GroupBy': [
-		  {
-		    'SourceRef': {
-		      'Source': 'e',
-		    },
-		    'Name': 'EstadoTrafico',
-		  },
-		],
-	      },
-	      'Binding': {
-		'Primary': {
-		  'Groupings': [
-		    {
-		      'Projections': [
-			0,
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7,
-		      ],
-		      'GroupBy': [
-			0,
-		      ],
-		    },
-		  ],
-		},
-		'DataReduction': {
-		  'Primary': {
-		    'Top': {
-		      'Count': 1000,
-		    },
-		  },
-		},
-		'Version': 1,
-	      },
-	      'ExecutionMetricsKind': 1,
-	    },
-	  },
-	],
-      },
-      'QueryId': '',
-      'ApplicationContext': {
-	'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
-	'Sources': [
-	  {
-	    'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
-	  },
-	],
-      },
-    },
-  ],
-  'cancelQueries': [],
-  'modelId': 2445526,
-}
-
-# Generate and write data
-def to_json(res, name):
-    with open(name+".json", "w") as f:
-        f.write(res)
+#json_data = {
+#  'version': '1.0.0',
+#  'queries': [
+#    {
+#      'Query': {
+#	'Commands': [
+#	  {
+#	    'SemanticQueryDataShapeCommand': {
+#	      'Query': {
+#		'Version': 2,
+#		'From': [
+#		  {
+#		    'Name': 'e',
+#		    'Entity': 'EstadoTrafico',
+#		    'Type': 0,
+#		  },
+#		  {
+#		    'Name': 't',
+#		    'Entity': 'Turnos',
+#		    'Type': 0,
+#		  },
+#		  {
+#		    'Name': 'p',
+#		    'Entity': 'Periodos',
+#		    'Type': 0,
+#		  },
+#		  {
+#		    'Name': 'm',
+#		    'Entity': 'Metricas',
+#		    'Type': 0,
+#		  },
+#		  {
+#		    'Name': 'c',
+#		    'Entity': 'Camaras',
+#		    'Type': 0,
+#		  },
+#		],
+#		'Select': [
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'fecha',
+#		    },
+#		    'Name': 'EstadoTrafico.fecha',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'cant',
+#		    },
+#		    'Name': 'Sum(EstadoTrafico.cant)',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 't',
+#			},
+#		      },
+#		      'Property': 'nombre',
+#		    },
+#		    'Name': 'Turnos.nombre',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'activo',
+#		    },
+#		    'Name': 'EstadoTrafico.activo',
+#		    'NativeReferenceName': 'activo',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'mark',
+#		    },
+#		    'Name': 'EstadoTrafico.mark',
+#		    'NativeReferenceName': 'mark',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'diaSemana',
+#		    },
+#		    'Name': 'EstadoTrafico.diaSemana',
+#		    'NativeReferenceName': 'diaSemana',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'periodo',
+#		    },
+#		    'Name': 'EstadoTrafico.periodo',
+#		    'NativeReferenceName': 'periodo',
+#		  },
+#		  {
+#		    'Column': {
+#		      'Expression': {
+#			'SourceRef': {
+#			  'Source': 'e',
+#			},
+#		      },
+#		      'Property': 'intervaloSegmento',
+#		    },
+#		    'Name': 'EstadoTrafico.intervaloSegmento',
+#		    'NativeReferenceName': 'intervaloSegmento',
+#		  },
+#		],
+#		'Where': [
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 't',
+#				},
+#			      },
+#			      'Property': 'nombre',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': f"{it}",
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'p',
+#				},
+#			      },
+#			      'Property': 'periodo',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': f"{fecha}",
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'm',
+#				},
+#			      },
+#			      'Property': 'nombreMetrica',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': f"{ubicacion}",
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'c',
+#				},
+#			      },
+#			      'Property': 'activo',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': 'true',
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'm',
+#				},
+#			      },
+#			      'Property': 'activo',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': 'true',
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'c',
+#				},
+#			      },
+#			      'Property': 'analyticsCapable',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': 'true',
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'Between': {
+#			'Expression': {
+#			  'Column': {
+#			    'Expression': {
+#			      'SourceRef': {
+#				'Source': 'e',
+#			      },
+#			    },
+#			    'Property': 'fechaDesde',
+#			  },
+#			},
+#			'LowerBound': {
+#			  'DateSpan': {
+#			    'Expression': {
+#			      'DateAdd': {
+#				'Expression': {
+#				  'DateAdd': {
+#				    'Expression': {
+#				      'DateAdd': {
+#					'Expression': {
+#					  'Now': {},
+#					},
+#					'Amount': -1,
+#					'TimeUnit': 0,
+#				      },
+#				    },
+#				    'Amount': 1,
+#				    'TimeUnit': 0,
+#				  },
+#				},
+#				'Amount': -50,
+#				'TimeUnit': 3,
+#			      },
+#			    },
+#			    'TimeUnit': 0,
+#			  },
+#			},
+#			'UpperBound': {
+#			  'DateSpan': {
+#			    'Expression': {
+#			      'DateAdd': {
+#				'Expression': {
+#				  'Now': {},
+#				},
+#				'Amount': -1,
+#				'TimeUnit': 0,
+#			      },
+#			    },
+#			    'TimeUnit': 0,
+#			  },
+#			},
+#		      },
+#		    },
+#		  },
+#		  {
+#		    'Condition': {
+#		      'In': {
+#			'Expressions': [
+#			  {
+#			    'Column': {
+#			      'Expression': {
+#				'SourceRef': {
+#				  'Source': 'm',
+#				},
+#			      },
+#			      'Property': 'nombreMetrica',
+#			    },
+#			  },
+#			],
+#			'Values': [
+#			  [
+#			    {
+#			      'Literal': {
+#				'Value': f"{ubicacion}",
+#			      },
+#			    },
+#			  ],
+#			],
+#		      },
+#		    },
+#		  },
+#		],
+#		'OrderBy': [
+#		  {
+#		    'Direction': 1,
+#		    'Expression': {
+#		      'Column': {
+#			'Expression': {
+#			  'SourceRef': {
+#			    'Source': 'e',
+#			  },
+#			},
+#			'Property': 'intervaloSegmento',
+#		      },
+#		    },
+#		  },
+#		],
+#		'GroupBy': [
+#		  {
+#		    'SourceRef': {
+#		      'Source': 'e',
+#		    },
+#		    'Name': 'EstadoTrafico',
+#		  },
+#		],
+#	      },
+#	      'Binding': {
+#		'Primary': {
+#		  'Groupings': [
+#		    {
+#		      'Projections': [
+#			0,
+#			1,
+#			2,
+#			3,
+#			4,
+#			5,
+#			6,
+#			7,
+#		      ],
+#		      'GroupBy': [
+#			0,
+#		      ],
+#		    },
+#		  ],
+#		},
+#		'DataReduction': {
+#		  'Primary': {
+#		    'Top': {
+#		      'Count': 1000,
+#		    },
+#		  },
+#		},
+#		'Version': 1,
+#	      },
+#	      'ExecutionMetricsKind': 1,
+#	    },
+#	  },
+#	],
+#      },
+#      'QueryId': '',
+#      'ApplicationContext': {
+#	'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
+#	'Sources': [
+#	  {
+#	    'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
+#	  },
+#	],
+#      },
+#    },
+#  ],
+#  'cancelQueries': [],
+#  'modelId': 2445526,
+#}
 
 
 
 # response
+# --------
 r = httpx.post(url, 
               #params=params,
               headers=headers,
-              json=json_data,
+              json=jsondata(it, fecha, ubicacion),
               )
 
 # src: https://datagy.io/python-requests-json/
