@@ -3,15 +3,17 @@ import pandas as pd
 import httpx
 import csv
 import json
+import datetime
 import os
 
 
 # Functions
 
+# automatic indent code: gg=G (src: https://youtu.be/r76uQkMNhSA)
+
 # .exists work for dir y files
 #if(not os.path.isdir('lala')):
 #    os.mkdir('lala')
-
 def direct(directorio):
     """
     Creation of directories where we store json data
@@ -565,8 +567,9 @@ params = {
 
 # We use it for iteration
 
+year = datetime.date.today().year
 #anios = ['2019', '2020', '2021', '2022', '2023', '2024']
-anios = np.arange(2019, 2025).tolist()
+anios = np.arange(2019, year+1).tolist()
 #anios = str(anios)
 meses = np.arange(1,13).tolist() 
 
@@ -580,6 +583,7 @@ its = {0: "'MADRUGADA'",
 
 
 # directories store json files
+# active cameras
 location_dir = [
         'contVeh_MaipuOlmosN_EGRESO2',
         'contVeh_ChacabucoIllia_NORTE',
@@ -587,26 +591,99 @@ location_dir = [
         'contVeh_GuzmanSarmiento_NW',
         'contVeh_PuenteSarmiento_INGRESO',
         'contVeh_GuzmanSarmiento_SE',
-
-
-
                ]
 
+# no active cameras
+location_dirNA = [
+	'contVeh_CPCMonseñorS_Ingreso',
+	'contVeh_CPCMonseñorN_Egreso',
+	'contVeh_OctavioPintoSagradaFamilia_INGRESO',
+	'contVeh_CaraffaOctavioPinto_INGRESO',
+	'contVeh_CPCColonW_INGRESO',
+	'contVeh_CPCColonE_EGRESO',
+	'contVeh_Nuevocentro_EGRESO',
+	'contVeh_SabattiniPucara_EGRESO',
+	'contVeh_SabattiniPucara_INGRESO',
+	'contVeh_SabattiniSgtoCabral_INGRESO',
+	'contVeh_SabattiniSgtoCabral_EGRESO',
+	'contVeh_CPCVillaLibertador_EGRESO',
+	'contVeh_CPCVillaLibertador_INGRESO',
+	'contVeh_CPCRuta20W_INGRESO',
+	'contVeh_CPCRuta20W_EGRESO',
+	'contVeh_CPCRuta20W_GiroIzqIngresoBarrioN',
+	'contVeh_CPCRuta20E_INGRESO',
+	'contVeh_CPCRuta20E_EGRESO',
+]
 
-# camera locations
+
+# Camera locations
+# active cameras
 ubicaciones = ["'contVeh_MaipuOlmosN_EGRESO2'",
                "'contVeh_ChacabucoIllia_NORTE'",
                "'contVeh_MaipuOlmosE_EGRESO'",
                "'contVeh_GuzmanSarmiento_NW'",
                "'contVeh_PuenteSarmiento_INGRESO'",
                "'contVeh_GuzmanSarmiento_SE'",
-
-
-
                ]
 
+# no active camera
+ubicacionesNA = [
+	"'contVeh_CPCMonseñorS_Ingreso'",
+	"'contVeh_CPCMonseñorN_Egreso'",
+	"'contVeh_OctavioPintoSagradaFamilia_INGRESO'",
+	"'contVeh_CaraffaOctavioPinto_INGRESO'",
+	"'contVeh_CPCColonW_INGRESO'",
+	"'contVeh_CPCColonE_EGRESO'",
+	"'contVeh_Nuevocentro_EGRESO'",
+	"'contVeh_SabattiniPucara_EGRESO'",
+	"'contVeh_SabattiniPucara_INGRESO'",
+	"'contVeh_SabattiniSgtoCabral_INGRESO'",
+	"'contVeh_SabattiniSgtoCabral_EGRESO'",
+	"'contVeh_CPCVillaLibertador_EGRESO'",
+	"'contVeh_CPCVillaLibertador_INGRESO'",
+	"'contVeh_CPCRuta20W_INGRESO'",
+	"'contVeh_CPCRuta20W_EGRESO'",
+	"'contVeh_CPCRuta20W_GiroIzqIngresoBarrioN'",
+	"'contVeh_CPCRuta20E_INGRESO'",
+	"'contVeh_CPCRuta20E_EGRESO'",
+]
 
-it=its[1] #"'MADRUGADA'"
+"""
+ References ubicaciones/ubicacionesNA
+ 
+ with data and active cameras
+ contVeh_MaipuOlmosN_EGRESO2:	Av. Olmos y Av. Maipú	Vehículos que circulan por Av. Maipú y Av. Olmos y se dirigen hacia Esquiú (egreso)
+ contVeh_ChacabucoIllia_NORTE:	Bv. Chacabuco y Bv. Illía - NORTE	Vehículos que circulan por Bv. Chacabuco y Bv. Illía hacia puente Maipú.
+ contVeh_MaipuOlmosE_EGRESO:	Av. Olmos esq. Av. Maipú	Vehículo que circulan por Av. Olmos y Maipú hacia el puente 24 de Septiembre.
+ contVeh_GuzmanSarmiento_NW:	Bv. Guzmán y Av. Sarmiento	Vehículos que circulan por Bv. Guzmán y Sarmiento hacia el norte.
+ contVeh_PuenteSarmiento_INGRESO:	Pte. Sarmiento y Bv. Guzmán	Vechículos que circulan por puente Sarmiento, hacia el centro.
+ contVeh_GuzmanSarmiento_SE: 	Bv. Guzmán y Av. Sarmiento	Vehículos que circulan por Bv. Guzmán y Sarmiento hacia Terminal de Ómnibus
+
+ with data and no active cameras
+ contVeh_CPCMonseñorS_Ingreso:	CPC Monseñor P. Cabrera - INGRESO	Vehículos que circulan por el CPC Monseñor P. Cabrera y se dirigen hacia nudo vial Cardeñoza (ingreso).
+ contVeh_CPCMonseñorN_Egreso:	: 	CPC Monseñor P. Cabrera - EGRESO	Vehículos que circulan por el CPC Monseñor P. Cabrera y se dirigen hacia el norte de la Ciudad (egreso).
+ contVeh_OctavioPintoSagradaFamilia_INGRESO:	Bajada del Cerro	Vehículo que circulan por bajada del Cerro hacia puente Tablada.
+ contVeh_CaraffaOctavioPinto_INGRESO:	Av. Caraffa y Av. Octavio Pinto	Vehículos que circulan por Octavio Pinto e ingresan por Av. Caraffa, hacia Castro Barros.
+ contVeh_CPCColonW_INGRESO:	CPC Colón - OESTE	Vehículos que circulan por el CPC Colón y se dirigen hacia el este de la Ciudad (ingreso).
+ contVeh_CPCColonE_EGRESO:	CPC Colón - ESTE	Vehículos que circulan por el CPC Colón y se dirigen hacia el oeste de la Ciudad (egreso).
+ contVeh_Nuevocentro_EGRESO:	Nuevocentro Shopping	Vehículos que circulan por Av. Duarte Quirós (pasando por Nuevocentro Shopping) hacia CPC Colón.
+ contVeh_SabattiniPucara_EGRESO:	Sabattini y bajada Pucará	Vehículos que circulan por Av. Sabattini hacia Sargento Cabral.
+ contVeh_SabattiniPucara_INGRESO:	Sabattini y bajada Pucará	Vehículos que circulan por Av. Sabattini hacia Bv. Illía.
+ contVeh_SabattiniSgtoCabral_INGRESO:	Av. Sabattini y Sargento Cabral - OESTE	Vehículos que circulan por Av. Sabattini y Sargento Cabral y se dirigen hacia Parque Sarmiento (ingreso).
+ contVeh_SabattiniSgtoCabral_EGRESO:	Av. Sabattini y Sargento Cabral - ESTE	Vehículos que circulan por Av. Sabattini y Sargento Cabral y se dirigen hacia el Arco de Córdoba (egreso).
+ contVeh_CPCVillaLibertador_EGRESO:	CPC Villa Libertador - EGRESO	Vehículos que circulan por el CPC Villa Libertador y se dirigen hacia el peaje (egreso).
+ contVeh_CPCVillaLibertador_INGRESO:	CPC Villa Libertador - INGRESO	Vehículo que circulan por el CPC Villa Libertador y se dirigen hacia el centro de la Ciudad (ingreso).
+ contVeh_CPCRuta20W_INGRESO:	CPC Ruta 20 - OESTE	Vehículos que circulan por el CPC Ruta 20 y se dirigen hacia el este de la Ciudad (ingreso).
+ contVeh_CPCRuta20W_EGRESO:	CPC Ruta 20 - OESTE	Vehículos que circulan por el CPC Ruta 20 y se dirigen hacia el oeste de la Ciudad (egreso).
+ contVeh_CPCRuta20W_GiroIzqIngresoBarrioN:	CPC Ruta 20 - OESTE	Vehículos que circulan por el CPC Ruta 20 hacia el oeste y giran a la izquierda para igreso al barrio por Aviador Richardson (hacia el norte de Av. Fza. Aérea).
+ contVeh_CPCRuta20E_INGRESO:	CPC Ruta 20 - ESTE	Vehículos que circulan por el CPC Ruta 20 y se dirigen hacia el este de la Ciudad (ingreso).
+ contVeh_CPCRuta20E_EGRESO:	CPC Ruta 20 - ESTE	Vehículos que circulan por el CPC Ruta 20 y se dirigen hacia el oeste de la Ciudad (egreso).
+"""
+
+# Loops here
+
+print(os.stat('2023.04.json'))
+it=its[1] 
 ubicacion = ubicaciones[0]
 fecha = "'"+str(anios[-1])+"/"+str(meses[3]).zfill(2)+"'"
 
@@ -616,462 +693,6 @@ fecha = "'"+str(anios[-1])+"/"+str(meses[3]).zfill(2)+"'"
 #      )
 
 print(it, ubicacion, fecha)
-
-# automatic indent code: gg=G (src: https://youtu.be/r76uQkMNhSA)
-# header
-#json_data = {
-#  'version': '1.0.0',
-#  'queries': [
-#    {
-#      'Query': {
-#	'Commands': [
-#	  {
-#	    'SemanticQueryDataShapeCommand': {
-#	      'Query': {
-#		'Version': 2,
-#		'From': [
-#		  {
-#		    'Name': 'e',
-#		    'Entity': 'EstadoTrafico',
-#		    'Type': 0,
-#		  },
-#		  {
-#		    'Name': 't',
-#		    'Entity': 'Turnos',
-#		    'Type': 0,
-#		  },
-#		  {
-#		    'Name': 'p',
-#		    'Entity': 'Periodos',
-#		    'Type': 0,
-#		  },
-#		  {
-#		    'Name': 'm',
-#		    'Entity': 'Metricas',
-#		    'Type': 0,
-#		  },
-#		  {
-#		    'Name': 'c',
-#		    'Entity': 'Camaras',
-#		    'Type': 0,
-#		  },
-#		],
-#		'Select': [
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'fecha',
-#		    },
-#		    'Name': 'EstadoTrafico.fecha',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'cant',
-#		    },
-#		    'Name': 'Sum(EstadoTrafico.cant)',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 't',
-#			},
-#		      },
-#		      'Property': 'nombre',
-#		    },
-#		    'Name': 'Turnos.nombre',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'activo',
-#		    },
-#		    'Name': 'EstadoTrafico.activo',
-#		    'NativeReferenceName': 'activo',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'mark',
-#		    },
-#		    'Name': 'EstadoTrafico.mark',
-#		    'NativeReferenceName': 'mark',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'diaSemana',
-#		    },
-#		    'Name': 'EstadoTrafico.diaSemana',
-#		    'NativeReferenceName': 'diaSemana',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'periodo',
-#		    },
-#		    'Name': 'EstadoTrafico.periodo',
-#		    'NativeReferenceName': 'periodo',
-#		  },
-#		  {
-#		    'Column': {
-#		      'Expression': {
-#			'SourceRef': {
-#			  'Source': 'e',
-#			},
-#		      },
-#		      'Property': 'intervaloSegmento',
-#		    },
-#		    'Name': 'EstadoTrafico.intervaloSegmento',
-#		    'NativeReferenceName': 'intervaloSegmento',
-#		  },
-#		],
-#		'Where': [
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 't',
-#				},
-#			      },
-#			      'Property': 'nombre',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': f"{it}",
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'p',
-#				},
-#			      },
-#			      'Property': 'periodo',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': f"{fecha}",
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'm',
-#				},
-#			      },
-#			      'Property': 'nombreMetrica',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': f"{ubicacion}",
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'c',
-#				},
-#			      },
-#			      'Property': 'activo',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': 'true',
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'm',
-#				},
-#			      },
-#			      'Property': 'activo',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': 'true',
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'c',
-#				},
-#			      },
-#			      'Property': 'analyticsCapable',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': 'true',
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'Between': {
-#			'Expression': {
-#			  'Column': {
-#			    'Expression': {
-#			      'SourceRef': {
-#				'Source': 'e',
-#			      },
-#			    },
-#			    'Property': 'fechaDesde',
-#			  },
-#			},
-#			'LowerBound': {
-#			  'DateSpan': {
-#			    'Expression': {
-#			      'DateAdd': {
-#				'Expression': {
-#				  'DateAdd': {
-#				    'Expression': {
-#				      'DateAdd': {
-#					'Expression': {
-#					  'Now': {},
-#					},
-#					'Amount': -1,
-#					'TimeUnit': 0,
-#				      },
-#				    },
-#				    'Amount': 1,
-#				    'TimeUnit': 0,
-#				  },
-#				},
-#				'Amount': -50,
-#				'TimeUnit': 3,
-#			      },
-#			    },
-#			    'TimeUnit': 0,
-#			  },
-#			},
-#			'UpperBound': {
-#			  'DateSpan': {
-#			    'Expression': {
-#			      'DateAdd': {
-#				'Expression': {
-#				  'Now': {},
-#				},
-#				'Amount': -1,
-#				'TimeUnit': 0,
-#			      },
-#			    },
-#			    'TimeUnit': 0,
-#			  },
-#			},
-#		      },
-#		    },
-#		  },
-#		  {
-#		    'Condition': {
-#		      'In': {
-#			'Expressions': [
-#			  {
-#			    'Column': {
-#			      'Expression': {
-#				'SourceRef': {
-#				  'Source': 'm',
-#				},
-#			      },
-#			      'Property': 'nombreMetrica',
-#			    },
-#			  },
-#			],
-#			'Values': [
-#			  [
-#			    {
-#			      'Literal': {
-#				'Value': f"{ubicacion}",
-#			      },
-#			    },
-#			  ],
-#			],
-#		      },
-#		    },
-#		  },
-#		],
-#		'OrderBy': [
-#		  {
-#		    'Direction': 1,
-#		    'Expression': {
-#		      'Column': {
-#			'Expression': {
-#			  'SourceRef': {
-#			    'Source': 'e',
-#			  },
-#			},
-#			'Property': 'intervaloSegmento',
-#		      },
-#		    },
-#		  },
-#		],
-#		'GroupBy': [
-#		  {
-#		    'SourceRef': {
-#		      'Source': 'e',
-#		    },
-#		    'Name': 'EstadoTrafico',
-#		  },
-#		],
-#	      },
-#	      'Binding': {
-#		'Primary': {
-#		  'Groupings': [
-#		    {
-#		      'Projections': [
-#			0,
-#			1,
-#			2,
-#			3,
-#			4,
-#			5,
-#			6,
-#			7,
-#		      ],
-#		      'GroupBy': [
-#			0,
-#		      ],
-#		    },
-#		  ],
-#		},
-#		'DataReduction': {
-#		  'Primary': {
-#		    'Top': {
-#		      'Count': 1000,
-#		    },
-#		  },
-#		},
-#		'Version': 1,
-#	      },
-#	      'ExecutionMetricsKind': 1,
-#	    },
-#	  },
-#	],
-#      },
-#      'QueryId': '',
-#      'ApplicationContext': {
-#	'DatasetId': 'beefe97a-a0ed-4ea2-bc00-5b94ee700c95',
-#	'Sources': [
-#	  {
-#	    'ReportId': '90780177-2a38-419a-9c34-3bc250cb771d',
-#	  },
-#	],
-#      },
-#    },
-#  ],
-#  'cancelQueries': [],
-#  'modelId': 2445526,
-#}
-
-
 
 # response
 # --------
